@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "fb-clone-fcbf1": {
+      "hosting": {
+        "frontend": [
+          "fb-clone-fcbf1"
+        ]
+      }
+    }
+  }
+}
