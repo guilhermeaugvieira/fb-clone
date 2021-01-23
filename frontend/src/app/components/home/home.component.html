@@ -1,64 +1,65 @@
 <div class="home-container">
-  <div class="home_header"></div>
-  <div class="home_header_left">
-    <img src="../../../assets/fb-head.jpg" alt="logo" mat-card-avatar />
-    <div class="input">
-      <mat-icon class="search-icon">search</mat-icon>
-      <form>
-        <input type="text" placeholder="Search Facebook" />
-      </form>
+  <div class="home_header">
+    <div class="home_header_left">
+      <img src="../../../assets/fb-head.jpg" alt="logo" mat-card-avatar />
+      <div class="input">
+        <mat-icon class="search-icon">search</mat-icon>
+        <form>
+          <input type="text" placeholder="Search Facebook" />
+        </form>
+      </div>
     </div>
-  </div>
-  <div class="home_header_middle">
-    <div class="active">
-      <mat-icon>home</mat-icon>
+    <div class="home_header_middle">
+      <div class="active">
+        <mat-icon>home</mat-icon>
+      </div>
+      <div>
+        <mat-icon>ondemand_video</mat-icon>
+      </div>
+      <div>
+        <mat-icon>store</mat-icon>
+      </div>
+      <div>
+        <mat-icon>group</mat-icon>
+      </div>
+      <div>
+        <mat-icon>flag</mat-icon>
+      </div>
     </div>
-    <div>
-      <mat-icon>ondemand_video</mat-icon>
+    <div class="home_header_right">
+      <div>
+        <img src="" alt="avatar" mat-card-avatar />
+        <span class="name">Name Here</span>
+      </div>
+      <div>
+        <mat-icon>add</mat-icon>
+      </div>
+      <div>
+        <mat-icon
+          matBadge="4"
+          matBadgeColor="primary"
+          matBadgeOverlap="false"
+          matBadgePosition="above after"
+          >forum</mat-icon
+        >
+      </div>
+      <div>
+        <mat-icon
+          matBadge="3"
+          matBadgeColor="warn"
+          matBadgeOverlap="false"
+          matBadgePosition="above after"
+          >notifications</mat-icon
+        >
+      </div>
+      <mat-icon [matMenuTriggerFor]="menu">expand_more</mat-icon>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item><mat-icon> exit_to_app </mat-icon> Logout</button>
+      </mat-menu>
     </div>
-    <div>
-      <mat-icon>store</mat-icon>
-    </div>
-    <div>
-      <mat-icon>group</mat-icon>
-    </div>
-    <div>
-      <mat-icon>flag</mat-icon>
-    </div>
-  </div>
-  <div class="home_header_right">
-    <div>
-      <img src="" alt="avatar" mat-card-avatar />
-      <span class="name">Name Here</span>
-    </div>
-    <div>
-      <mat-icon>add</mat-icon>
-    </div>
-    <div>
-      <mat-icon
-        matBadge="4"
-        matBadgeColor="primary"
-        matBadgeOverlap="false"
-        matBadgePosition="above after"
-        >forum</mat-icon
-      >
-    </div>
-    <div>
-      <mat-icon
-        matBadge="3"
-        matBadgeColor="warn"
-        matBadgeOverlap="false"
-        matBadgePosition="above after"
-        >notifications</mat-icon
-      >
-    </div>
-    <mat-icon [matMenuTriggerFor]="menu">expand_more</mat-icon>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item><mat-icon> exit_to_app </mat-icon> Logout</button>
-    </mat-menu>
   </div>
   <div class="home_body">
-    <div class="home__body__sidebarLeft">
+    <div class="home_body_sidebarLeft">
       <div class="inside">
         <div class="user-avatar">
           <img alt="" mat-card-avatar src="" />
@@ -100,8 +101,8 @@
         </div>
       </div>
     </div>
-    <div class="home__body__contentMiddle">
-      <div class="home__body__contentMiddle__top">
+    <div class="home_body_contentMiddle">
+      <div class="home_body_contentMiddle_top">
         <mat-card *ngFor="let i of images" class="image-card">
           <img alt="bg" class="bg" src="{{ i }}" />
           <mat-card-content>
@@ -114,14 +115,14 @@
           </mat-card-content>
         </mat-card>
       </div>
-      <div class="home__body__contentMiddle__center">
+      <div class="home_body_contentMiddle_center">
         <mat-card class="post-message">
           <mat-card-header
             class="post-message-header"
             style="padding-bottom: 20px; border-bottom: 1px solid lightgray"
           >
-            <img alt="" mat-card-avatar />
-            <form #form="ngForm">
+            <img alt="" mat-card-avatar [src]="user?.avatar" />
+            <form #form="ngForm" (ngSubmit)="postMessage(form)">
               <input
                 class="on-your-mind"
                 name="message"
@@ -149,10 +150,24 @@
             </div>
           </mat-card-content>
         </mat-card>
-        <div class="home_body_feed_right">
-          <img alt="feed" src="../../../assets/feed.jpg" />
-        </div>
+
+        <!--Loop Through All Posts From Database and Display-->
+        <mat-card *ngFor="let p of posts" class="posts">
+          <mat-card-header class="posts_header">
+            <img alt="{{ p?.title }}" mat-card-avatar [src]="p?.avatar" />
+            <div class="posts_header_right">
+              <span>{{ p?.time?.seconds * 1000 | date: "shortTime" }}</span>
+              <h3>{{ p?.title }}</h3>
+            </div>
+          </mat-card-header>
+          <mat-card-content class="posts_body">
+            <p>{{ p?.message }}</p>
+          </mat-card-content>
+        </mat-card>
       </div>
+    </div>
+    <div class="home_body_feed_right">
+      <img alt="feed" src="../../../assets/feed.jpg" />
     </div>
   </div>
 </div>

@@ -1,14 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { PostService } from 'src/app/services/post.service';
+import { AuthService, IUserData } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   images: string[];
+  posts: any[];
+  user: IUserData;
+  subs: Subscription[] = [];
 
-  constructor() {
+  constructor(
+    private postService: PostService,
+    private authService: AuthService
+  ) {
     this.images = [
       'https://images-na.ssl-images-amazon.com/images/I/51DR2KzeGBL._AC_.jpg',
       'https://cdn.pixabay.com/photo/2017/08/30/01/05/milky-way-2695569_960_720.jpg',
@@ -19,5 +29,21 @@ export class HomeComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {}
+  postMessage(form: NgForm): void {
+    console.log(form);
+  }
+
+  ngOnInit(): void {
+    this.subs.push(
+      this.postService.getAllPosts().subscribe((posts) => {
+        this.posts = posts;
+      })
+    );
+
+    //this.subs.push(this.authService);
+  }
+
+  ngOnDestroy(): void {
+    this.subs.map((s) => s.unsubscribe());
+  }
 }
