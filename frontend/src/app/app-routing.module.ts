@@ -7,7 +7,7 @@ import { FacebookGuard } from './guards/facebook.guard';
 const routes: Routes = [
   {
     path: 'login',
-    component: RegisterComponent,
+    component: LoginComponent,
   },
   {
     path: '',

@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class PostService {
-  currentUser: firebase.default.User | null;
+  currentUser: firebase.default.User;
 
   constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) {
     this.afAuth.authState.subscribe((user) => (this.currentUser = user));

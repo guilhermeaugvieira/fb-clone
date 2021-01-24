@@ -28,8 +28,8 @@
     </div>
     <div class="home_header_right">
       <div>
-        <img src="" alt="avatar" mat-card-avatar />
-        <span class="name">Name Here</span>
+        <img [src]="user?.avatar" alt="avatar" mat-card-avatar />
+        <span class="name">{{ user?.firstName || "UNKNOWN" }}</span>
       </div>
       <div>
         <mat-icon>add</mat-icon>
@@ -54,7 +54,9 @@
       </div>
       <mat-icon [matMenuTriggerFor]="menu">expand_more</mat-icon>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item><mat-icon> exit_to_app </mat-icon> Logout</button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon> exit_to_app </mat-icon> Logout
+        </button>
       </mat-menu>
     </div>
   </div>
@@ -62,8 +64,8 @@
     <div class="home_body_sidebarLeft">
       <div class="inside">
         <div class="user-avatar">
-          <img alt="" mat-card-avatar src="" />
-          <span class="name">NAME HERE</span>
+          <img alt="" mat-card-avatar [src]="user?.avatar" />
+          <span class="name">{{ user?.firstName }} {{ user?.lastName }}</span>
         </div>
         <div>
           <mat-icon> local_hospital</mat-icon>
@@ -106,11 +108,7 @@
         <mat-card *ngFor="let i of images" class="image-card">
           <img alt="bg" class="bg" src="{{ i }}" />
           <mat-card-content>
-            <img
-              alt="avatar"
-              class="avatar"
-              src="https://scontent.fdel8-1.fna.fbcdn.net/v/t1.0-1/cp0/p50x50/15078703_10211571832470683_2854551810050518303_n.jpg?_nc_cat=105&_nc_sid=7206a8&_nc_ohc=YSQBDLYrXHgAX_7KBWW&_nc_ht=scontent.fdel8-1.fna&oh=298837f1c1ebe1f884ce2525d31f39b1&oe=5F6F741A"
-            />
+            <img alt="avatar" class="avatar" [src]="user?.avatar" />
             <span class="card-name">Indranil Mukherjee</span>
           </mat-card-content>
         </mat-card>
@@ -156,7 +154,7 @@
           <mat-card-header class="posts_header">
             <img alt="{{ p?.title }}" mat-card-avatar [src]="p?.avatar" />
             <div class="posts_header_right">
-              <span>{{ p?.time?.seconds * 1000 | date: "shortTime" }}</span>
+              <span>{{ p?.time?.seconds * 1000 | date: "medium" }}</span>
               <h3>{{ p?.title }}</h3>
             </div>
           </mat-card-header>

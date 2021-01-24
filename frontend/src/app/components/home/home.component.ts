@@ -30,20 +30,39 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   postMessage(form: NgForm): void {
-    console.log(form);
+    const { message } = form.value;
+
+    this.postService.postMessage(
+      message,
+      `${this.user.firstName} ${this.user.lastName}`,
+      {
+        avatar: this.user.avatar,
+        lastName: this.user.lastName,
+        firstName: this.user.firstName,
+      }
+    );
+    form.resetForm();
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.subs.push(
-      this.postService.getAllPosts().subscribe((posts) => {
+      this.postService.getAllPosts().subscribe(async (posts) => {
         this.posts = posts;
       })
     );
 
-    //this.subs.push(this.authService);
+    this.subs.push(
+      this.authService.CurrentUser().subscribe((user) => {
+        this.user = user;
+      })
+    );
   }
 
   ngOnDestroy(): void {
     this.subs.map((s) => s.unsubscribe());
+  }
+
+  logout(): void {
+    this.authService.Logout();
   }
 }
